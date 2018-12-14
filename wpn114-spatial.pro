@@ -4,15 +4,28 @@ CONFIG += c++11 dll
 QT += quick
 
 QMLDIR_FILES += $$PWD/qml/qmldir
-DESTDIR = $$[QT_INSTALL_QML]/WPN114/Audio/Spatial
+
+localmod: DESTDIR = $$QML_MODULE_DESTDIR/WPN114/Audio/Sampling
+else {
+    DESTDIR = $$[QT_INSTALL_QML]/WPN114/Audio/Sampling
+    QML_MODULE_DESTDIR = $$[QT_INSTALL_QML]
+}
 
 for(FILE,QMLDIR_FILES) {
     QMAKE_POST_LINK += $$quote(cp $${FILE} $${DESTDIR}$$escape_expand(\n\t))
 }
 
-QMAKE_LFLAGS += -Wl,-rpath,$$[QT_INSTALL_QML]/WPN114/Audio
+WPN114_AUDIO_REPOSITORY = ../WPN114-audio
+INCLUDEPATH += $$WPN114_AUDIO_REPOSITORY
+LIBS += -L$$QML_MODULE_DESTDIR/WPN114/Audio -lWPN114-audio
+QMAKE_LFLAGS += -Wl,-rpath,$$QML_MODULE_DESTDIR/WPN114/Audio
 
-include($$PWD/wpn114-spatial.pri)
+
+HEADERS += $$PWD/source/rooms/rooms.hpp
+SOURCES += $$PWD/source/rooms/rooms.cpp
+
+SOURCES += $$PWD/qml_plugin.cpp
+HEADERS += $$PWD/qml_plugin.hpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
