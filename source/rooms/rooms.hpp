@@ -235,9 +235,11 @@ class SpeakerRing : public RoomNode
 class RoomSetup : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
-    Q_CLASSINFO ( "DefaultProperty", "nodes" )
-    Q_PROPERTY  ( int nspeakers READ nspeakers )
-    Q_PROPERTY  ( QQmlListProperty<RoomNode> nodes READ nodes NOTIFY nodesChanged )
+    Q_CLASSINFO     ( "DefaultProperty", "nodes" )
+    Q_PROPERTY      ( int nspeakers READ nspeakers )
+    Q_PROPERTY      ( QQmlListProperty<RoomNode> nodes READ nodes NOTIFY nodesChanged )
+
+    Q_INTERFACES    ( QQmlParserStatus )
 
     public:
     RoomSetup();
