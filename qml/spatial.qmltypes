@@ -1,0 +1,146 @@
+import QtQuick.tooling 1.2
+
+Module
+{
+    Component
+    {
+        name: "RoomNode"
+        prototype: "QObject"
+        exports: ["WPN114.Audio.Spatial/RoomNode 1.0"]
+        isCreatable: false
+
+        Property { name: "horizontalInfluence"; type: "real" }
+        Property { name: "verticalInfluence"; type: "real" }
+    }
+
+    Component
+    {
+        name: "RoomSource"
+        prototype: "QObject"
+        exports: ["WPN114.Audio.Spatial/RoomSource 1.0"]
+        isCreatable: false
+
+        Property { name: "diffuse"; type: "real" }
+        Property { name: "bias"; type: "real" }
+        Property { name: "rotate"; type: "real" }
+        Property { name: "fixed"; type: "bool" }
+        Property { name: "nchannels"; type: "int" }
+        Property { name: "x"; type: "real" }
+        Property { name: "y"; type: "real" }
+        Property { name: "z"; type: "real" }
+    }
+
+    Component
+    {
+        name: "Speaker"
+        prototype: "QObject"
+        exports: ["WPN114.Audio.Spatial/Speaker 1.0"]
+        isCreatable: false
+
+        Property { name: "position"; type: "QVector3D" }
+        Property { name: "x"; type: "real" }
+        Property { name: "y"; type: "real" }
+        Property { name: "z"; type: "real" }
+        Property { name: "horizontalArea"; type: "SpeakerArea" }
+        Property { name: "verticalArea"; type: "SpeakerArea" }
+
+        Signal { name: "positionChanged" }
+        Signal { name: "horizontalAreaChanged" }
+        Signal { name: "verticalAreaChanged" }
+        Signal { name: "xChanged" }
+        Signal { name: "yChanged" }
+        Signal { name: "zChanged" }
+    }
+
+    Component
+    {
+        name: "SpeakerArea"
+        prototype: "QObject"
+        exports: ["WPN114.Audio.Spatial/SpeakerArea 1.0"]
+        isCreatable: false
+
+        Property { name: "radius"; type: "real" }
+        Property { name: "bias"; type: "real" }
+        Property { name: "angle"; type: "real" }
+
+        Signal { name: "radiusChanged" }
+        Signal { name: "biasChanged" }
+        Signal { name: "angleChanged" }
+    }
+
+    Component
+    {
+        name: "RoomSetup"
+        prototype: "QObject"
+        exports: ["WPN114.Audio.Spatial/RoomSetup 1.0"]
+        defaultProperty: "nodes"
+
+        Property { name: "nspeakers"; type: "int" }
+        Property { name: "nodes"; type: "RoomNode"; isList: true }
+
+        Method { name: "speakerList"; type: "QVariantList"; }
+
+        Signal { name: "nodesChanged" }
+    }
+
+    Component
+    {
+        name: "MonoSource"
+        prototype: "RoomSource"
+        exports: ["WPN114.Audio.Spatial/MonoSource 1.0"]
+
+        Property { name: "position"; type: "QVector3D" }
+    }
+
+    Component
+    {
+        name: "StereoSource"
+        prototype: "RoomSource"
+        exports: ["WPN114.Audio.Spatial/StereoSource 1.0"]
+
+        Property { name: "xspread"; type: "real" }
+        Property { name: "yspread"; type: "real" }
+        Property { name: "left"; type: "MonoSource" }
+        Property { name: "right"; type: "MonoSource" }
+    }
+
+    Component
+    {
+        name: "Rooms"
+        prototype: "StreamNode"
+        exports: ["WPN114.Audio.Spatial/Rooms 1.0"]
+
+        Property { name: "setup"; type: "RoomSetup" }
+    }
+
+    Component
+    {
+        name: "SpeakerPair"
+        prototype: "RoomNode"
+        exports: ["WPN114.Audio.Spatial/SpeakerPair 1.0"]
+
+        Property { name: "xspread"; type: "real" }
+        Property { name: "yspread"; type: "real" }
+        Property { name: "zspread"; type: "real" }
+        Property { name: "x"; type: "real" }
+        Property { name: "y"; type: "real" }
+        Property { name: "z"; type: "real" }
+        Property { name: "left"; type: "Speaker" }
+        Property { name: "right"; type: "Speaker" }
+    }
+
+    Component
+    {
+        name: "SpeakerRing"
+        prototype: "RoomNode"
+        exports: ["WPN114.Audio.Spatial/SpeakerRing 1.0"]
+
+        Property { name: "nspeakers"; type: "int" }
+        Property { name: "offset"; type: "real" }
+        Property { name: "elevation"; type: "real" }
+        Property { name: "width"; type: "real" }
+        Property { name: "height"; type: "real" }
+        Property { name: "radius"; type: "real" }
+
+    }
+}

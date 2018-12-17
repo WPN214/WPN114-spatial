@@ -1,5 +1,5 @@
 module WPN114.Audio.Spatial
-typeinfo plugins.qmltypes
+typeinfo spatial.qmltypes
 plugin WPN114-spatial
 classname qml_plugin
 depends WPN114.Audio 1.0
