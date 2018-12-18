@@ -16,7 +16,7 @@ Module
     Component
     {
         name: "RoomSource"
-        prototype: "QObject"
+        prototype: "StreamNode"
         exports: ["WPN114.Audio.Spatial/RoomSource 1.0"]
         isCreatable: false
 
