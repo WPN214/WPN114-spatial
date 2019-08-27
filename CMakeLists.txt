@@ -1,28 +1,32 @@
 cmake_minimum_required(VERSION 3.1)
-project(wpn114spatial-qml LANGUAGES C CXX)
+project(wpn114spatial-qml LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_CXX_LINK_FLAGS)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 find_package(Qt5 REQUIRED COMPONENTS Quick Core Qml)
+find_package(WPN114 REQUIRED COMPONENTS Audio)
 
-set(WPN114SPATIAL_QML_SOURCES
-    qml_plugin.cpp
-    source/surround.hpp
-    )
+# SOURCES -----------------------------------------------------------------------------------------
 
-set(WPN114AUDIO_ROOT /usr/lib/qt/qml/WPN114/Audio)
+set(WPN114SPATIAL_SOURCE_DIR source)
+set(WPN114SPATIAL_SOURCES
+    ${WPN114SPATIAL_SOURCE_DIR}/surround.hpp qml_plugin.cpp)
+
+# PROJECT -----------------------------------------------------------------------------------------
 
 add_subdirectory(examples)
 add_library(${PROJECT_NAME} SHARED ${WPN114SPATIAL_QML_SOURCES})
-target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Qml -L${WPN114AUDIO_ROOT} -lwpn114audio-qml)
-target_include_directories(${PROJECT_NAME} PUBLIC ${WPN114AUDIO_ROOT}/include)
+target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Qml WPN114::Audio)
 
-if(APPLE)
-elseif(UNIX AND NOT APPLE)
-endif()
+# INSTALL -----------------------------------------------------------------------------------------
+message("[WPN114] Library will be installed in ${WPN114_AUDIO_ROOT}/Spatial")
 
-install(TARGETS ${PROJECT_NAME} DESTINATION /usr/lib/qt/qml/WPN114/Audio/Spatial)
-install(FILES qml/spatial.qmltypes qml/qmldir DESTINATION /usr/lib/qt/qml/WPN114/Audio/Spatial)
+install(TARGETS ${PROJECT_NAME} DESTINATION ${WPN114_AUDIO_ROOT}/Spatial)
+install(FILES qml/spatial.qmltypes qml/qmldir DESTINATION ${WPN114_AUDIO_ROOT}/Spatial)
