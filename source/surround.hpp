@@ -77,7 +77,7 @@ public:
     width() const { return m_width; }
 
     qreal
-    heigth() const { return m_height; }
+    height() const { return m_height; }
 
     qreal
     depth() const { return m_depth; }
@@ -266,8 +266,8 @@ class SpeakerSetup : public QObject, public QQmlParserStatus
 {
     Q_OBJECT   
 
-    Q_CLASSINFO   ("DefaultProperty", "nodes")
-    Q_INTERFACES  (QQmlParserStatus)
+    Q_CLASSINFO   ( "DefaultProperty", "nodes" )
+    Q_INTERFACES  ( QQmlParserStatus )
 
     Q_PROPERTY (QQmlListProperty<SpeakerNode> nodes READ nodes)
 
@@ -281,6 +281,10 @@ public:
 
     //---------------------------------------------------------------------------------------------
     SpeakerSetup() {}
+
+    //---------------------------------------------------------------------------------------------
+    virtual void
+    classBegin() override {}
 
     //---------------------------------------------------------------------------------------------
     virtual void
