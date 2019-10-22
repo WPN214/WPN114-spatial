@@ -293,13 +293,16 @@ public:
     {
         for (auto& node : m_nodes) {
             auto& speakers = node->speakers();
-            for (auto& speaker : speakers)
+            for (auto& speaker : speakers) {
+                qDebug() << "[SPATIAL] Setting new speaker with xyz coordinates:"
+                         << speaker.x << speaker.y << speaker.z;
                 m_speakers.push_back(speaker);
+            }
         }
     }
 
     //---------------------------------------------------------------------------------------------
-    Q_INVOKABLE nchannels_t
+    Q_INVOKABLE int
     nspeakers() const { return m_speakers.size(); }
 
     //---------------------------------------------------------------------------------------------
